@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Baby Planner — Plan your pregnancy together</title>
+<meta name="description" content="A shared pregnancy planner for couples. Track tasks, budget, and milestones together in real time."/>
+<style>
+:root{--w:#FFF;--b:#1D1D1F;--g1:#86868B;--g2:#D2D2D7;--g3:#F5F5F7;--blu:#007AFF;--grn:#34C759;--pnk:#FF6B8A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;background:var(--w);color:var(--b);-webkit-font-smoothing:antialiased}
+
+.nav{padding:16px 48px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:18px;font-weight:600;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
+.nav-btn{padding:8px 20px;border-radius:20px;border:none;background:var(--b);color:var(--w);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .2s}
+.nav-btn:hover{transform:scale(1.03)}
+
+.hero{padding:100px 48px 80px;max-width:1200px;margin:0 auto;text-align:center}
+.hero-badge{display:inline-block;font-size:13px;font-weight:600;color:var(--pnk);background:#FFF0F4;padding:6px 18px;border-radius:20px;margin-bottom:24px;letter-spacing:.3px}
+.hero h1{font-size:clamp(42px,6vw,72px);font-weight:600;letter-spacing:-3px;line-height:1.05;margin-bottom:20px}
+.hero h1 .light{font-weight:300;color:var(--g1)}
+.hero .sub{font-size:21px;color:var(--g1);line-height:1.6;max-width:560px;margin:0 auto 40px;letter-spacing:-.2px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-primary{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:14px;border:none;background:var(--b);color:var(--w);font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.cta-primary:hover{transform:scale(1.03);box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.cta-primary svg{width:20px;height:20px}
+.cta-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:14px;border:1px solid var(--g2);background:var(--w);color:var(--b);font-size:16px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s}
+.cta-secondary:hover{border-color:var(--b)}
+
+.preview{max-width:1000px;margin:0 auto 80px;padding:0 48px}
+.preview-img{width:100%;border-radius:20px;background:var(--g3);padding:40px;position:relative;overflow:hidden}
+.preview-mock{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.mock-col{background:var(--w);border-radius:12px;padding:16px}
+.mock-col h4{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g1);margin-bottom:12px}
+.mock-card{background:var(--g3);border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}
+.mock-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mock-dot.red{background:var(--pnk)}.mock-dot.blue{background:var(--blu)}.mock-dot.green{background:var(--grn)}
+
+.features{max-width:1200px;margin:0 auto;padding:0 48px 80px}
+.features-label{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g1);margin-bottom:40px;text-align:center}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature{background:var(--g3);border-radius:20px;padding:32px}
+.feature-icon{font-size:28px;margin-bottom:16px}
+.feature h3{font-size:18px;font-weight:600;letter-spacing:-.3px;margin-bottom:8px}
+.feature p{font-size:14px;color:var(--g1);line-height:1.6}
+
+.how{max-width:1200px;margin:0 auto;padding:0 48px 80px}
+.how-label{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g1);margin-bottom:40px;text-align:center}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center}
+.how-step .num{font-size:48px;font-weight:600;color:var(--g2);letter-spacing:-2px;margin-bottom:12px}
+.how-step h3{font-size:16px;font-weight:600;margin-bottom:8px;letter-spacing:-.3px}
+.how-step p{font-size:14px;color:var(--g1);line-height:1.6}
+
+.final-cta{text-align:center;padding:60px 48px 100px;max-width:1200px;margin:0 auto}
+.final-cta h2{font-size:clamp(32px,4vw,48px);font-weight:600;letter-spacing:-2px;margin-bottom:12px}
+.final-cta .sub{font-size:18px;color:var(--g1);margin-bottom:32px}
+
+.ftr{text-align:center;padding:32px 48px;max-width:1200px;margin:0 auto;border-top:1px solid var(--g2);font-size:13px;color:var(--g1)}
+
+.fade{opacity:0;transform:translateY(20px);animation:fi .8s ease forwards}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}.d5{animation-delay:.65s}
+@keyframes fi{to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:768px){
+  .nav,.hero,.features,.how,.final-cta,.ftr,.preview{padding-left:24px;padding-right:24px}
+  .hero{padding-top:60px}
+  .feature-grid,.how-steps,.preview-mock{grid-template-columns:1fr}
+  .preview-mock .mock-col:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav fade d1">
+  <div class="nav-logo">&#x1F476; Baby Planner</div>
+  <button class="nav-btn" onclick="window.location.href='app.html'">Sign in</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge fade d1">Free for couples</div>
+  <h1 class="fade d2">Plan your pregnancy<span class="light">,</span><br/>together<span class="light">.</span></h1>
+  <p class="sub fade d3">A shared planner that keeps both partners on the same page — from first appointment to delivery day.</p>
+  <div class="hero-cta fade d3">
+    <button class="cta-primary" onclick="window.location.href='app.html'">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Sign in with Google
+    </button>
+    <button class="cta-secondary" onclick="document.querySelector('.features').scrollIntoView({behavior:'smooth'})">See features &#8595;</button>
+  </div>
+</section>
+
+<div class="preview fade d4">
+  <div class="preview-img">
+    <div class="preview-mock">
+      <div class="mock-col">
+        <h4>To Do</h4>
+        <div class="mock-card"><span class="mock-dot red"></span>Schedule first prenatal visit</div>
+        <div class="mock-card"><span class="mock-dot blue"></span>Research OB-GYN options</div>
+        <div class="mock-card"><span class="mock-dot red"></span>Review insurance coverage</div>
+        <div class="mock-card"><span class="mock-dot blue"></span>Start prenatal vitamins</div>
+      </div>
+      <div class="mock-col">
+        <h4>In Progress</h4>
+        <div class="mock-card"><span class="mock-dot green"></span>Apartment hunting</div>
+        <div class="mock-card"><span class="mock-dot blue"></span>Build baby registry</div>
+      </div>
+      <div class="mock-col">
+        <h4>Done</h4>
+        <div class="mock-card" style="opacity:.5"><span class="mock-dot green"></span>Home pregnancy test</div>
+        <div class="mock-card" style="opacity:.5"><span class="mock-dot green"></span>Tell the family!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="features">
+  <div class="features-label fade d4">FEATURES</div>
+  <div class="feature-grid">
+    <div class="feature fade d4">
+      <div class="feature-icon">&#x1F4CB;</div>
+      <h3>80+ Pre-loaded Tasks</h3>
+      <p>Medical, shopping, baby-proofing, finances — we've done the research so you don't have to. Organized by week and month.</p>
+    </div>
+    <div class="feature fade d4">
+      <div class="feature-icon">&#x1F465;</div>
+      <h3>Shared With Your Partner</h3>
+      <p>Both of you see the same planner in real time. Assign tasks, track who's doing what, and stay in sync.</p>
+    </div>
+    <div class="feature fade d5">
+      <div class="feature-icon">&#x1F4B0;</div>
+      <h3>Built-in Budget Tracker</h3>
+      <p>Track costs per task, add standalone expenses, and see your full first-year projection at a glance.</p>
+    </div>
+    <div class="feature fade d5">
+      <div class="feature-icon">&#x1F5C2;</div>
+      <h3>Board, Kanban & Timeline</h3>
+      <p>Three views to match how you think. Drag cards in Kanban. Scroll the visual timeline. Filter by category or owner.</p>
+    </div>
+    <div class="feature fade d5">
+      <div class="feature-icon">&#x1F4C5;</div>
+      <h3>Due Date Calculator</h3>
+      <p>Enter your due date and see exactly what week and month you're in. Overdue tasks get flagged automatically.</p>
+    </div>
+    <div class="feature fade d5">
+      <div class="feature-icon">&#x1F512;</div>
+      <h3>Secret Dad Mode</h3>
+      <p>Hidden surprise tasks that only one partner can see. Plan gifts, date nights, and special moments privately.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="how-label fade d4">HOW IT WORKS</div>
+  <div class="how-steps">
+    <div class="how-step fade d4">
+      <div class="num">01</div>
+      <h3>Sign in with Google</h3>
+      <p>Create your account in one click. No passwords to remember.</p>
+    </div>
+    <div class="how-step fade d5">
+      <div class="num">02</div>
+      <h3>Invite your partner</h3>
+      <p>Share a simple link. They sign in and you're instantly connected to the same planner.</p>
+    </div>
+    <div class="how-step fade d5">
+      <div class="num">03</div>
+      <h3>Start planning together</h3>
+      <p>Check off tasks, add your own, track the budget, and enjoy the journey.</p>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <h2 class="fade d4">Ready to start planning<span style="color:var(--g1);font-weight:300">?</span></h2>
+  <p class="sub fade d4">Free forever. No credit card needed.</p>
+  <button class="cta-primary fade d5" onclick="window.location.href='app.html'" style="font-size:18px;padding:16px 40px">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    Get started free
+  </button>
+</section>
+
+<footer class="ftr fade d5">&copy; 2026 Baby Planner</footer>
+
+</body>
+</html>

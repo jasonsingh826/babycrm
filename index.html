@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Baby CRM — You're having a baby. Let AI handle the planning.</title>
+<meta name="description" content="Answer a few questions and AI creates a pregnancy plan built around you. Tasks, budget, timeline, and partner sharing — all unique to your journey."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#222;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+
+/* NAV */
+.nav{padding:12px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #F0F0F0;position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);z-index:100}
+.nav-logo{font-size:16px;font-weight:800;color:#222;display:flex;align-items:center;gap:6px}
+.nav-icon{background:linear-gradient(135deg,#FF8A9B,#FFB347);width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-size:13px;color:#888;font-weight:500;cursor:pointer;transition:color .15s}
+.nav-link:hover{color:#222}
+.nav-cta{padding:8px 20px;border-radius:10px;background:#222;color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:transform .15s}
+.nav-cta:hover{transform:scale(1.03)}
+
+/* HERO */
+.hero{padding:56px 40px 48px;position:relative;overflow:hidden;max-width:1200px;margin:0 auto}
+.hero-glow-1{position:absolute;top:-60px;right:200px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,179,71,.12) 0%,transparent 70%);pointer-events:none}
+.hero-glow-2{position:absolute;bottom:-40px;left:100px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,155,.1) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;padding:5px 14px;border-radius:20px;background:#FFF5F0;border:1px solid #FFE4D6;font-size:12px;font-weight:600;color:#E8834A;margin-bottom:20px}
+.hero h1{font-size:46px;font-weight:800;line-height:1.1;margin-bottom:14px;letter-spacing:-2px}
+.hero p{color:#888;font-size:17px;line-height:1.65;margin-bottom:24px;max-width:440px}
+.hero-ctas{display:flex;gap:10px;margin-bottom:14px}
+.btn-primary{padding:12px 28px;border-radius:12px;background:#222;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:transform .15s}
+.btn-primary:hover{transform:scale(1.03)}
+.btn-secondary{padding:12px 28px;border-radius:12px;border:1.5px solid #E0E0E0;color:#666;font-size:15px;font-weight:600;background:#fff;cursor:pointer;font-family:inherit;transition:transform .15s}
+.btn-secondary:hover{transform:scale(1.03)}
+.hero-sub{font-size:12px;color:#bbb}
+.hero-visual{position:relative}
+
+/* BROWSER MOCK */
+.browser{background:#fff;border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,.1);overflow:hidden;border:1px solid #E8E8E8}
+.browser-bar{background:#F8F8F8;padding:8px 12px;display:flex;gap:6px;border-bottom:1px solid #EEE;align-items:center}
+.browser-dot{width:8px;height:8px;border-radius:50%}
+.browser-url{flex:1;background:#fff;border-radius:6px;margin-left:8px;padding:3px 10px;font-size:10px;color:#AAA;border:1px solid #EEE}
+.browser-content{padding:14px}
+
+/* PHONE OVERLAY */
+.phone-overlay{position:absolute;bottom:-32px;right:-12px;z-index:2}
+
+/* ONBOARDING CHAT */
+.chat-screen{background:#FAFAFA;min-height:240px;border-radius:4px}
+.chat-header{padding:8px 12px;background:#fff;display:flex;align-items:center;gap:6px;border-bottom:1px solid #F0F0F0}
+.chat-header-icon{background:linear-gradient(135deg,#FF8A9B,#FFB347);width:18px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px}
+.chat-header-title{font-size:11px;font-weight:800;color:#222}
+.chat-body{padding:12px}
+.chat-bot{display:flex;gap:6px;margin-bottom:10px}
+.chat-avatar{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#FF8A9B,#FFB347);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.chat-bubble-bot{background:#fff;border-radius:2px 10px 10px 10px;padding:8px 10px;font-size:10px;color:#444;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.04);max-width:80%}
+.chat-user{display:flex;justify-content:flex-end;margin-bottom:10px}
+.chat-bubble-user{background:#222;border-radius:10px 2px 10px 10px;padding:8px 10px;font-size:10px;color:#fff;max-width:70%}
+.chat-options{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-left:26px;margin-bottom:10px}
+.chat-opt{background:#fff;border-radius:8px;padding:7px 8px;font-size:9px;font-weight:600;border:1.5px solid #EEE;text-align:center;color:#444;line-height:1.3}
+.chat-opt.sel{background:#222;color:#fff;border-color:#222}
+.chat-typing{display:flex;gap:6px}
+.typing-dots{background:#fff;border-radius:2px 10px 10px 10px;padding:8px 12px;box-shadow:0 1px 3px rgba(0,0,0,.04);display:flex;gap:3px;align-items:center}
+.typing-dot{width:4px;height:4px;border-radius:50%;background:#CCC;animation:typing 1.2s infinite}
+.typing-dot:nth-child(2){animation-delay:.2s;background:#DDD}
+.typing-dot:nth-child(3){animation-delay:.4s;background:#EEE}
+@keyframes typing{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* PHONE MOCKUP */
+.phone-frame.natural{background:linear-gradient(160deg,#C8C7CC 0%,#9D9DA3 8%,#D4D4D8 16%,#AEAEB2 30%,#E5E5EA 45%,#C7C7CC 55%,#A8A8AD 70%,#D1D1D6 85%,#B8B8BC 100%);box-shadow:0 2px 4px rgba(0,0,0,.08),0 20px 56px rgba(0,0,0,.18),0 0 0 .5px rgba(0,0,0,.08),inset 0 .5px 0 rgba(255,255,255,.8)}
+.phone-frame.dark{background:linear-gradient(160deg,#3A3A3C 0%,#1C1C1E 8%,#48484A 16%,#2C2C2E 30%,#3A3A3C 45%,#252527 55%,#3A3A3C 70%,#1C1C1E 85%,#2C2C2E 100%);box-shadow:0 2px 4px rgba(0,0,0,.2),0 24px 64px rgba(0,0,0,.5),0 0 0 .5px rgba(255,255,255,.04),inset 0 .5px 0 rgba(255,255,255,.08)}
+.phone-screen{background:#000;overflow:hidden;display:flex;flex-direction:column}
+.phone-status{background:#F8F8F8;display:flex;align-items:flex-end;justify-content:space-between;flex-shrink:0;font-weight:600;color:#000;font-family:-apple-system,sans-serif}
+.phone-content{flex:1;background:#fff;overflow:hidden}
+.phone-home{background:#fff;padding:4% 0 5%;display:flex;justify-content:center;flex-shrink:0}
+.phone-home-bar{width:33%;height:3px;background:#D1D1D6;border-radius:100px}
+
+/* DASHBOARD SCREEN INSIDE PHONE */
+.ds-header{padding:7px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #F0F0F0}
+.ds-logo{display:flex;align-items:center;gap:5px}
+.ds-logo-i{background:linear-gradient(135deg,#FF8A9B,#FFB347);width:16px;height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px}
+.ds-logo-t{font-size:11px;font-weight:800;color:#222}
+.ds-av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#FF8A9B,#FFB347);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff}
+.ds-body{padding:10px 12px}
+.ds-hi{font-weight:800;font-size:14px;color:#222;margin-bottom:1px}
+.ds-wk{font-size:9px;color:#999;margin-bottom:8px}
+.ds-prog{background:#FAFAFA;border-radius:10px;padding:8px 10px;margin-bottom:8px}
+.ds-prog-top{display:flex;justify-content:space-between;margin-bottom:4px}
+.ds-prog-l{font-size:8px;font-weight:700;color:#555}
+.ds-prog-p{font-size:8px;font-weight:800;color:#FF8A9B}
+.ds-bar{height:5px;background:#EEECEA;border-radius:3px}
+.ds-bar-fill{height:100%;width:55%;background:linear-gradient(90deg,#FF8A9B,#FFB347);border-radius:3px}
+.ds-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:10px}
+.ds-stat{border-radius:8px;padding:6px 4px;text-align:center}
+.ds-stat-v{font-size:13px;font-weight:800}
+.ds-stat-l{font-size:6px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.ds-sl{font-size:9px;font-weight:700;color:#BBB;letter-spacing:.5px;margin-bottom:5px}
+.ds-task{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid #F5F5F5}
+.ds-task-ck{width:10px;height:10px;border-radius:3px;border:1.5px solid #DDD}
+.ds-task-nm{font-size:10px;font-weight:500;color:#333;flex:1}
+.ds-task-b{font-size:7px;font-weight:700;padding:2px 6px;border-radius:10px}
+
+/* SOCIAL PROOF */
+.social{padding:18px 40px;background:#FAFAFA;border-top:1px solid #F0F0F0;border-bottom:1px solid #F0F0F0;display:flex;justify-content:center;gap:48px}
+.social-item{text-align:center}
+.social-val{font-size:22px;font-weight:800;color:#222}
+.social-label{font-size:10px;color:#999;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+
+/* SECTIONS */
+.section{padding:64px 40px;max-width:1200px;margin:0 auto}
+.section.alt{background:#FAFAFA}
+.section-tag{font-size:11px;font-weight:700;letter-spacing:1.5px;margin-bottom:8px;text-align:center}
+.section-title{font-size:34px;font-weight:800;color:#222;margin-bottom:10px;letter-spacing:-1px;text-align:center}
+.section-desc{font-size:15px;color:#888;max-width:520px;margin:0 auto;line-height:1.6;text-align:center}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;max-width:900px;margin:40px auto 0}
+.step{background:#FAFAFA;border-radius:16px;padding:24px 20px;border:1px solid #F0F0F0;text-align:center}
+.step-icon{width:36px;height:36px;border-radius:10px;background:#FFF5F0;border:1.5px solid #FFE4D6;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 12px}
+.step-num{font-size:10px;font-weight:700;color:#E8834A;margin-bottom:4px}
+.step-title{font-size:16px;font-weight:700;color:#222;margin-bottom:6px}
+.step-desc{font-size:12px;color:#999;line-height:1.6}
+
+/* PERSONA CARDS */
+.personas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:900px;margin:0 auto}
+.persona{border-radius:14px;padding:20px 16px}
+.persona-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.persona-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff}
+.persona-name{font-size:13px;font-weight:700;color:#222}
+.persona-stage{font-size:9px;color:#999}
+.persona-desc{font-size:11px;color:#666;line-height:1.6;margin-bottom:10px}
+.persona-footer{display:flex;justify-content:space-between;align-items:center;padding-top:8px}
+.persona-tasks{font-size:18px;font-weight:800}
+.persona-tasks-sub{font-size:8px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.persona-cats{font-size:9px;color:#999;text-align:right;line-height:1.5}
+
+/* JOURNEY PILLS */
+.journey{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}
+.journey-pill{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:600}
+
+/* FEATURE SECTIONS */
+.feature{padding:56px 40px;max-width:1200px;margin:0 auto}
+.feature.alt{background:#FAFAFA}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.feature-grid.reverse{direction:rtl}
+.feature-grid.reverse>*{direction:ltr}
+.feature-tag{display:inline-flex;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:10px}
+.feature-title{font-size:28px;font-weight:800;color:#222;margin-bottom:10px;letter-spacing:-.5px;line-height:1.2}
+.feature-desc{font-size:14px;color:#888;line-height:1.65;margin-bottom:14px}
+.feature-pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{padding:4px 12px;border-radius:20px;background:#F5F5F5;font-size:11px;font-weight:500;color:#666;border:1px solid #EEE}
+
+/* MOCK */
+.mock{background:#fff;border-radius:14px;padding:16px;border:1px solid #F0F0F0}
+.mock-pink{border-color:#FADADD}
+.mock-tabs{display:flex;gap:6px;margin-bottom:12px}
+.mock-tab{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600}
+.mock-tab.active{background:#222;color:#fff}
+.mock-tab.inactive{background:#F5F5F5;color:#888}
+.mock-task{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F8F8}
+.mock-check{width:18px;height:18px;border-radius:5px;border:2px solid #DDD;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mock-check.done{background:#48BB78;border:none;color:#fff;font-size:10px;font-weight:700}
+.mock-check.done-pink{background:#D97DB2;border:none;color:#fff;font-size:9px}
+.mock-task-text{font-size:12px;font-weight:500;color:#333;flex:1}
+.mock-task-text.done{text-decoration:line-through;opacity:.45}
+.mock-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px}
+.mock-owner{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;flex-shrink:0}
+.mock-ai{margin-top:10px;padding:8px 12px;background:#FFF5F0;border-radius:8px;border:1px solid #FFE4D6;display:flex;gap:8px;align-items:center;font-size:10px;color:#E8834A;font-weight:600}
+
+/* KANBAN */
+.kan-tabs{display:flex;gap:4px;margin-bottom:10px}
+.kan-tab{padding:5px 14px;border-radius:8px;font-size:11px;font-weight:600}
+.kan-tab.active{background:#222;color:#fff}
+.kan-tab.inactive{background:#fff;color:#999;border:1px solid #EEE}
+.kan-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.kan-col{background:#fff;border-radius:10px;padding:10px;border:1px solid #F0F0F0}
+.kan-col h4{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:700;color:#555;margin-bottom:6px}
+.kan-col h4 span{font-size:9px;color:#bbb;font-weight:600}
+.kan-dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+.kan-card{background:#FAFAFA;border-radius:6px;padding:6px 8px;font-size:10px;margin-bottom:4px;font-weight:500;color:#444;border:1px solid #F0F0F0}
+
+/* BUDGET MOCK */
+.bm-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.bm-stat{background:#FAFAFA;border-radius:10px;padding:10px;text-align:center}
+.bm-stat-v{font-size:16px;font-weight:800}
+.bm-stat-l{font-size:8px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.bm-cat{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F8F8}
+.bm-cat-name{font-size:11px;font-weight:600;color:#333;flex:1}
+.bm-cat-amt{font-size:11px;font-weight:700;color:#555}
+.bm-cat-bar{width:60px;height:4px;background:#F0F0F0;border-radius:2px}
+.bm-cat-fill{height:100%;border-radius:2px}
+.bm-yr{margin-top:10px;padding:8px 12px;background:#F0FFF4;border-radius:8px;border:1px solid #C6F6D5;text-align:center}
+.bm-yr-l{font-size:7px;color:#48BB78;font-weight:600;margin-bottom:1px}
+.bm-yr-v{font-size:18px;font-weight:800;color:#222}
+
+/* PRIVACY */
+.priv-mock{background:#fff;border-radius:14px;padding:20px;border:1px solid #F0F0F0;text-align:center}
+.priv-shield{width:56px;height:56px;border-radius:16px;background:#F0FFF4;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px}
+.priv-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F8F8;text-align:left}
+.priv-item-icon{font-size:14px;flex-shrink:0}
+.priv-item-text{font-size:12px;color:#444;font-weight:500;flex:1}
+.priv-item-check{font-size:12px;color:#48BB78;flex-shrink:0}
+
+/* 3-PHONE SECTION */
+.phones-section{padding:64px 40px;background:linear-gradient(180deg,#1A1A1E,#0D0D0F);text-align:center}
+.phones-badge{display:inline-flex;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:11px;font-weight:600;color:#FFB347;margin-bottom:14px}
+.phones-title{font-size:34px;font-weight:800;color:#fff;margin-bottom:6px;letter-spacing:-1px}
+.phones-desc{font-size:14px;color:rgba(255,255,255,.35);max-width:380px;margin:0 auto 40px;line-height:1.5}
+.phones-row{display:flex;justify-content:center;gap:20px;align-items:flex-end;margin-bottom:32px}
+.phones-side{transform:scale(.8);transform-origin:bottom center;opacity:.85}
+.store-badges{display:flex;justify-content:center;gap:8px}
+.store-badge{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.45);padding:8px 18px;border-radius:10px;font-size:12px;font-weight:500}
+
+/* MINI PHONE SCREEN */
+.mp-hdr{padding:7px 12px;display:flex;align-items:center;gap:5px;border-bottom:1px solid #F0F0F0}
+.mp-hdr-i{background:linear-gradient(135deg,#FF8A9B,#FFB347);width:16px;height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px}
+.mp-hdr-t{font-size:11px;font-weight:800;color:#222}
+.mp-body{padding:8px 12px;font-size:9px}
+
+/* QUICK FEATURES */
+.quick{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:900px;margin:36px auto 0}
+.quick-card{background:#FAFAFA;border-radius:14px;padding:20px 18px;border:1px solid #F0F0F0}
+.quick-icon{font-size:24px;margin-bottom:6px}
+.quick-title{font-size:14px;font-weight:700;color:#222;margin-bottom:3px}
+.quick-desc{font-size:12px;color:#999;line-height:1.5}
+
+/* PRICING */
+.pricing{padding:64px 40px;text-align:center;background:#FAFAFA}
+.pricing-card{background:#fff;border-radius:20px;padding:36px 32px;max-width:380px;margin:28px auto 0;border:2px solid #F0F0F0;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.pricing-label{font-size:11px;font-weight:700;color:#E8834A;letter-spacing:1px;margin-bottom:12px}
+.pricing-amount{font-size:48px;font-weight:800;color:#222;letter-spacing:-2px;margin-bottom:4px}
+.pricing-sub{font-size:13px;color:#999;margin-bottom:20px}
+.pricing-btn{padding:12px 28px;border-radius:12px;background:#222;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-bottom:20px;width:100%;transition:transform .15s}
+.pricing-btn:hover{transform:scale(1.02)}
+.pricing-features{text-align:left}
+.pricing-feat{font-size:13px;color:#555;padding:5px 0;border-bottom:1px solid #F8F8F8}
+.pricing-note{font-size:12px;color:#bbb;margin-top:16px}
+
+/* FINAL CTA */
+.final-cta{padding:64px 40px;text-align:center;max-width:1200px;margin:0 auto}
+.final-cta h2{font-size:40px;font-weight:800;color:#222;margin-bottom:10px;letter-spacing:-1px}
+.final-cta p{font-size:15px;color:#888;max-width:420px;margin:0 auto 20px;line-height:1.6}
+.final-sub{font-size:11px;color:#ccc;margin-top:12px}
+
+/* FOOTER */
+.footer{padding:16px 40px;border-top:1px solid #F0F0F0;text-align:center;font-size:11px;color:#bbb}
+.footer a{color:#888}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav{padding:14px 16px}
+  .nav-links .nav-link{display:none}
+  .hero{padding:32px 20px 24px}
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero h1{font-size:28px;letter-spacing:-1px}
+  .hero p{font-size:14px;max-width:320px;margin:0 auto 20px}
+  .hero-ctas{justify-content:center}
+  .hero-sub{text-align:center}
+  .hero-visual{display:none}
+  .hero-phone-mobile{display:flex;justify-content:center;margin-top:24px}
+  .social{padding:16px 20px;gap:24px}
+  .social-val{font-size:18px}
+  .section{padding:40px 16px}
+  .section-title{font-size:24px}
+  .steps{grid-template-columns:1fr;gap:10px}
+  .personas{grid-template-columns:1fr;gap:10px}
+  .feature{padding:40px 16px}
+  .feature-grid,.feature-grid.reverse{grid-template-columns:1fr;direction:ltr}
+  .feature-title{font-size:22px}
+  .phones-section{padding:40px 16px}
+  .phones-title{font-size:26px}
+  .phones-row{gap:6px}
+  .phones-side{transform:scale(.58)}
+  .quick{grid-template-columns:1fr 1fr;gap:8px}
+  .quick-card{padding:14px 12px}
+  .quick-title{font-size:12px}
+  .quick-desc{font-size:10px}
+  .pricing{padding:40px 16px}
+  .pricing-card{padding:28px 20px}
+  .final-cta{padding:48px 20px}
+  .final-cta h2{font-size:28px}
+}
+@media(min-width:769px){.hero-phone-mobile{display:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo"><span class="nav-icon">👶</span> Baby CRM</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#features">Features</a>
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#pricing">Pricing</a>
+    <a class="nav-link" href="#privacy">Privacy</a>
+    <a class="nav-cta" href="app.html">Start free trial →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">✨ Try it free for 14 days</div>
+      <h1>You're having a baby.<br>Let AI handle the planning.</h1>
+      <p>Answer a few quick questions about your journey, your personality, and what's on your mind. AI creates a completely unique pregnancy plan — tasks, budget, timeline, and partner sharing included.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="app.html">Start planning →</a>
+        <a class="btn-secondary" href="#how">See how it works</a>
+      </div>
+      <div class="hero-sub">14-day free trial · No credit card needed</div>
+    </div>
+    <div class="hero-visual">
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="browser-dot" style="background:#FF5F57"></span>
+          <span class="browser-dot" style="background:#FFBD2E"></span>
+          <span class="browser-dot" style="background:#28CA42"></span>
+          <span class="browser-url">babycrm.app</span>
+        </div>
+        <div class="browser-content">
+          <div class="chat-screen">
+            <div class="chat-header"><span class="chat-header-icon">👶</span><span class="chat-header-title">Baby CRM</span></div>
+            <div class="chat-body">
+              <div class="chat-bot"><span class="chat-avatar">✨</span><div class="chat-bubble-bot">Hey! 👋 Let's get your plan set up. First — where are you on the journey?</div></div>
+              <div class="chat-user"><div class="chat-bubble-user">We're expecting! 22 weeks 🤰</div></div>
+              <div class="chat-bot"><span class="chat-avatar">✨</span><div class="chat-bubble-bot">Congrats!! 🎉 Quick question — when you're planning something big, what's your style?</div></div>
+              <div class="chat-options">
+                <div class="chat-opt">Wing it and figure it out</div>
+                <div class="chat-opt sel">A rough plan is enough</div>
+                <div class="chat-opt">Detailed checklist for sure</div>
+                <div class="chat-opt">Spreadsheet with tabs 😅</div>
+              </div>
+              <div class="chat-bot"><span class="chat-avatar">✨</span><div class="chat-bubble-bot">Great — and is this your first baby, or have you done this before?</div></div>
+              <div class="chat-typing"><span class="chat-avatar">✨</span><div class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-overlay">
+        <div style="width:130px;height:266px">
+          <div class="phone-frame natural" style="width:100%;height:100%;border-radius:20px;padding:2px">
+            <div class="phone-screen" style="border-radius:18px">
+              <div class="phone-status" style="height:22px;padding:8px 7% 0;font-size:6px"><span>9:41</span><span style="font-size:5px">●●●● ▾ 🔋</span></div>
+              <div class="phone-content">
+                <div class="ds-header"><div class="ds-logo"><span class="ds-logo-i">👶</span><span class="ds-logo-t">Baby CRM</span></div><div class="ds-av">J</div></div>
+                <div class="ds-body">
+                  <div class="ds-hi">Hey Jason 👋</div>
+                  <div class="ds-wk">Week 22 · Month 5 · Trimester 2</div>
+                  <div class="ds-prog"><div class="ds-prog-top"><span class="ds-prog-l">Pregnancy Progress</span><span class="ds-prog-p">55%</span></div><div class="ds-bar"><div class="ds-bar-fill"></div></div></div>
+                  <div class="ds-stats">
+                    <div class="ds-stat" style="background:#F0FFF4"><div class="ds-stat-v" style="color:#48BB78">38</div><div class="ds-stat-l">Done</div></div>
+                    <div class="ds-stat" style="background:#FFF5F5"><div class="ds-stat-v" style="color:#E85D5D">4</div><div class="ds-stat-l">Overdue</div></div>
+                    <div class="ds-stat" style="background:#EBF8FF"><div class="ds-stat-v" style="color:#7CB9E8">$2.4k</div><div class="ds-stat-l">Spent</div></div>
+                  </div>
+                  <div class="ds-sl">COMING UP</div>
+                  <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Anatomy scan</span><span class="ds-task-b" style="background:#FFF5F5;color:#E85D5D">Tomorrow</span></div>
+                  <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Baby registry</span><span class="ds-task-b" style="background:#EBF8FF;color:#7CB9E8">Wk 23</span></div>
+                </div>
+              </div>
+              <div class="phone-home"><div class="phone-home-bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile phone -->
+  <div class="hero-phone-mobile">
+    <div style="width:200px;height:410px">
+      <div class="phone-frame natural" style="width:100%;height:100%;border-radius:31px;padding:3px">
+        <div class="phone-screen" style="border-radius:28px">
+          <div class="phone-status" style="height:34px;padding:14px 7% 0;font-size:8px"><span>9:41</span><span style="font-size:6px">●●●● ▾ 🔋</span></div>
+          <div class="phone-content">
+            <div class="ds-header"><div class="ds-logo"><span class="ds-logo-i">👶</span><span class="ds-logo-t">Baby CRM</span></div><div class="ds-av">J</div></div>
+            <div class="ds-body">
+              <div class="ds-hi">Hey Jason 👋</div>
+              <div class="ds-wk">Week 22 · Month 5 · Trimester 2</div>
+              <div class="ds-prog"><div class="ds-prog-top"><span class="ds-prog-l">Pregnancy Progress</span><span class="ds-prog-p">55%</span></div><div class="ds-bar"><div class="ds-bar-fill"></div></div></div>
+              <div class="ds-stats">
+                <div class="ds-stat" style="background:#F0FFF4"><div class="ds-stat-v" style="color:#48BB78">38</div><div class="ds-stat-l">Done</div></div>
+                <div class="ds-stat" style="background:#FFF5F5"><div class="ds-stat-v" style="color:#E85D5D">4</div><div class="ds-stat-l">Overdue</div></div>
+                <div class="ds-stat" style="background:#EBF8FF"><div class="ds-stat-v" style="color:#7CB9E8">$2.4k</div><div class="ds-stat-l">Spent</div></div>
+              </div>
+              <div class="ds-sl">COMING UP</div>
+              <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Anatomy scan</span><span class="ds-task-b" style="background:#FFF5F5;color:#E85D5D">Tomorrow</span></div>
+              <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Baby registry</span><span class="ds-task-b" style="background:#EBF8FF;color:#7CB9E8">Wk 23</span></div>
+              <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Glucose screening</span><span class="ds-task-b" style="background:#F5F5F5;color:#999">Wk 26</span></div>
+            </div>
+          </div>
+          <div class="phone-home"><div class="phone-home-bar"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF -->
+<div class="social">
+  <div class="social-item"><div class="social-val">200+</div><div class="social-label">happy families</div></div>
+  <div class="social-item"><div class="social-val">∞</div><div class="social-label">unique plans</div></div>
+  <div class="social-item"><div class="social-val">60s</div><div class="social-label">to get started</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="how">
+  <div class="section-tag" style="color:#E8834A">HOW IT WORKS</div>
+  <div class="section-title">A plan that actually fits your life</div>
+  <div class="section-desc">Some people love spreadsheets. Some just want to know what matters this week. AI picks up on how you think and builds around it — no preset packages, no one-size-fits-all.</div>
+  <div class="steps">
+    <div class="step"><div class="step-icon">💬</div><div class="step-num">STEP 1</div><div class="step-title">Quick chat</div><div class="step-desc">Answer a few fun questions — your stage, how you like to plan, what's on your mind. Feels like texting a friend.</div></div>
+    <div class="step"><div class="step-icon">✨</div><div class="step-num">STEP 2</div><div class="step-title">AI builds your plan</div><div class="step-desc">Based on your personality and situation, AI creates a completely unique task list, budget, and timeline. No two plans are alike.</div></div>
+    <div class="step"><div class="step-icon">💕</div><div class="step-num">STEP 3</div><div class="step-title">Plan together</div><div class="step-desc">Invite your partner. Share tasks, track progress, and keep a few surprises hidden. You've got this.</div></div>
+  </div>
+  <div style="text-align:center;margin:40px 0 20px">
+    <h3 style="font-size:26px;font-weight:800;color:#222;margin-bottom:8px">Every plan is one of a kind</h3>
+    <p style="font-size:13px;color:#999;max-width:440px;margin:0 auto">No two families get the same plan. AI picks the right tasks, the right number, and the right timing based on your answers.</p>
+  </div>
+  <div class="personas">
+    <div class="persona" style="background:#F0FFF4;border:1.5px solid #C6F6D5">
+      <div class="persona-header"><div class="persona-av" style="background:#48BB78">S</div><div><div class="persona-name">Sarah &amp; Mike</div><div class="persona-stage">Expecting · Week 28 · First baby</div></div></div>
+      <div class="persona-desc">Relaxed planners who want the essentials without feeling overwhelmed. Focused on medical milestones and nursery prep.</div>
+      <div class="persona-footer" style="border-top:1px solid #C6F6D5"><div><div class="persona-tasks" style="color:#48BB78">34 tasks</div><div class="persona-tasks-sub">generated</div></div><div class="persona-cats">Medical, Shopping, Nursery</div></div>
+    </div>
+    <div class="persona" style="background:#FAF5FF;border:1.5px solid #E9D8FD">
+      <div class="persona-header"><div class="persona-av" style="background:#9F7AEA">P</div><div><div class="persona-name">Priya &amp; James</div><div class="persona-stage">IVF · Cycle 2 · Detail-oriented</div></div></div>
+      <div class="persona-desc">Meticulous planners navigating fertility treatments. Need to track appointments, medications, insurance, and emotional check-ins.</div>
+      <div class="persona-footer" style="border-top:1px solid #E9D8FD"><div><div class="persona-tasks" style="color:#9F7AEA">112 tasks</div><div class="persona-tasks-sub">generated</div></div><div class="persona-cats">IVF, Medical, Insurance,<br>Wellness, Finance</div></div>
+    </div>
+    <div class="persona" style="background:#EBF8FF;border:1.5px solid #BEE3F8">
+      <div class="persona-header"><div class="persona-av" style="background:#7CB9E8">A</div><div><div class="persona-name">Alex &amp; Jordan</div><div class="persona-stage">Expecting · Week 14 · Second baby</div></div></div>
+      <div class="persona-desc">Been through this before but want to stay organized with a toddler at home. Practical focus on logistics and budget.</div>
+      <div class="persona-footer" style="border-top:1px solid #BEE3F8"><div><div class="persona-tasks" style="color:#7CB9E8">58 tasks</div><div class="persona-tasks-sub">generated</div></div><div class="persona-cats">Medical, Childcare,<br>Budget, Legal</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- JOURNEY PILLS -->
+<div class="section alt">
+  <div class="section-tag" style="color:#ccc">WHEREVER YOU ARE</div>
+  <div class="section-title">Wherever you are, it starts there</div>
+  <div class="section-desc">Just starting to think about it? Deep into IVF? Already showing? Your plan starts from exactly where you are right now — no catching up required.</div>
+  <div class="journey">
+    <span class="journey-pill" style="background:#F0FFF4;border:1.5px solid #C6F6D5;color:#276749">🌱 Trying</span>
+    <span class="journey-pill" style="background:#EBF4FF;border:1.5px solid #BEE3F8;color:#2B6CB0">🩺 IVF &amp; Fertility</span>
+    <span class="journey-pill" style="background:#FFF5F7;border:1.5px solid #FED7E2;color:#B83280">🤰 Expecting</span>
+    <span class="journey-pill" style="background:#FFFAF0;border:1.5px solid #FEEBC8;color:#C05621">💭 Exploring</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="feature" id="features">
+  <div class="feature-grid">
+    <div>
+      <div class="feature-tag" style="background:rgba(255,138,155,.08);color:#FF8A9B">YOUR TASKS</div>
+      <div class="feature-title">A to-do list that actually makes sense</div>
+      <div class="feature-desc">No cookie-cutter checklists. AI learns how you think, what stage you're at, and what matters to you — then builds a completely unique task list. Two families at the same week of pregnancy might get totally different plans.</div>
+      <div class="feature-pills"><span class="pill">Unique to you</span><span class="pill">Timed to the right week</span><span class="pill">Split tasks with your partner</span><span class="pill">Adapts as you go</span></div>
+    </div>
+    <div>
+      <div class="mock">
+        <div class="mock-tabs"><span class="mock-tab active">All</span><span class="mock-tab inactive">🏥 Medical</span><span class="mock-tab inactive">🛒 Shopping</span><span class="mock-tab inactive">💰 Finance</span></div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Schedule anatomy scan</span><span class="mock-badge" style="background:#FFF0F0;color:#E85D5D">Wk 20</span><div class="mock-owner" style="background:#FF8A9B">J</div></div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Buy crib + mattress</span><span class="mock-badge" style="background:#F0FFF4;color:#48BB78">$350</span><div class="mock-owner" style="background:#7CB9E8">T</div></div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Set up baby budget</span><span class="mock-badge" style="background:#F0FFF4;color:#48BB78">Wk 12</span><div class="mock-owner" style="background:#999">★</div></div>
+        <div class="mock-task" style="opacity:.45"><div class="mock-check done">✓</div><span class="mock-task-text done">First ultrasound</span><div class="mock-owner" style="background:#FF8A9B">J</div></div>
+        <div class="mock-task" style="opacity:.45"><div class="mock-check done">✓</div><span class="mock-task-text done">Prenatal vitamins</span><div class="mock-owner" style="background:#7CB9E8">T</div></div>
+        <div class="mock-ai">✨ 52 tasks created just for you based on your chat answers</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="feature alt">
+  <div class="feature-grid reverse">
+    <div>
+      <div class="feature-tag" style="background:rgba(124,185,232,.08);color:#7CB9E8">YOUR WAY</div>
+      <div class="feature-title">See it your way — list, columns, or timeline</div>
+      <div class="feature-desc">Some people think in lists. Some think in columns. Some want a big-picture timeline. Pick the view that makes your brain happy.</div>
+      <div class="feature-pills"><span class="pill">Simple list</span><span class="pill">Drag-and-drop columns</span><span class="pill">Month-by-month view</span><span class="pill">Find anything fast</span></div>
+    </div>
+    <div>
+      <div class="kan-tabs"><span class="kan-tab inactive">List</span><span class="kan-tab active">Columns</span><span class="kan-tab inactive">Timeline</span></div>
+      <div class="kan-cols">
+        <div class="kan-col"><h4><span><span class="kan-dot" style="background:#FFB347"></span>To Do</span><span>12</span></h4><div class="kan-card">Prenatal visit</div><div class="kan-card">Fertility consult</div><div class="kan-card">Glucose test</div></div>
+        <div class="kan-col"><h4><span><span class="kan-dot" style="background:#7CB9E8"></span>In Progress</span><span>5</span></h4><div class="kan-card">Apartment hunt</div><div class="kan-card">Baby registry</div></div>
+        <div class="kan-col"><h4><span><span class="kan-dot" style="background:#48BB78"></span>Done</span><span>24</span></h4><div class="kan-card">Pregnancy test</div><div class="kan-card">Choose OB-GYN</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="feature">
+  <div class="feature-grid">
+    <div>
+      <div class="feature-tag" style="background:rgba(72,187,120,.08);color:#48BB78">BUDGET</div>
+      <div class="feature-title">Finally know where the money's going</div>
+      <div class="feature-desc">Babies are expensive (surprise!). Your plan comes with realistic cost estimates already filled in. Track what you've spent, see what's coming, and stop guessing about the first year.</div>
+      <div class="feature-pills"><span class="pill">Fills in as you go</span><span class="pill">See spending by category</span><span class="pill">Real-world estimates</span><span class="pill">Know your first-year total</span></div>
+    </div>
+    <div>
+      <div class="mock">
+        <div class="bm-stats">
+          <div class="bm-stat"><div class="bm-stat-v" style="color:#222">$8,740</div><div class="bm-stat-l">Total Budget</div></div>
+          <div class="bm-stat"><div class="bm-stat-v" style="color:#48BB78">$2,430</div><div class="bm-stat-l">Spent</div></div>
+          <div class="bm-stat"><div class="bm-stat-v" style="color:#7CB9E8">$6,310</div><div class="bm-stat-l">Remaining</div></div>
+        </div>
+        <div class="bm-cat"><span class="bm-cat-name">🏥 Medical</span><span class="bm-cat-amt">$2,800</span><div class="bm-cat-bar"><div class="bm-cat-fill" style="width:45%;background:#E85D5D"></div></div></div>
+        <div class="bm-cat"><span class="bm-cat-name">🛒 Shopping</span><span class="bm-cat-amt">$1,975</span><div class="bm-cat-bar"><div class="bm-cat-fill" style="width:30%;background:#FFB347"></div></div></div>
+        <div class="bm-cat"><span class="bm-cat-name">🩺 IVF &amp; Fertility</span><span class="bm-cat-amt">$5,800</span><div class="bm-cat-bar"><div class="bm-cat-fill" style="width:60%;background:#9F7AEA"></div></div></div>
+        <div class="bm-cat"><span class="bm-cat-name">🏠 Apartment</span><span class="bm-cat-amt">$1,200</span><div class="bm-cat-bar"><div class="bm-cat-fill" style="width:20%;background:#7CB9E8"></div></div></div>
+        <div class="bm-yr"><div class="bm-yr-l">ESTIMATED FIRST YEAR</div><div class="bm-yr-v">$29,460</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="feature alt">
+  <div class="feature-grid reverse">
+    <div>
+      <div class="feature-tag" style="background:rgba(217,125,178,.08);color:#D97DB2">JUST FOR YOU</div>
+      <div class="feature-title">Plan surprises they'll never see coming 🤫</div>
+      <div class="feature-desc">The Secrets tab is a private space — your partner has no idea it exists. Plan a babymoon, hide a push present, or write love notes. AI even suggests ideas.</div>
+      <div class="feature-pills"><span class="pill">Completely private</span><span class="pill">AI-suggested surprise ideas</span><span class="pill">Your partner can't see it. Promise.</span></div>
+    </div>
+    <div>
+      <div class="mock mock-pink">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="background:#FFF0F3;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px">🔒</div>
+          <div><div style="font-size:12px;font-weight:700;color:#333">My Secret Reminders</div><div style="font-size:9px;color:#D97DB2;font-weight:500">Only visible to you</div></div>
+        </div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Book babymoon trip</span><span class="mock-badge" style="background:#FFF0F3;color:#D97DB2">$1,500</span></div>
+        <div class="mock-task" style="opacity:.45"><div class="mock-check done-pink">✓</div><span class="mock-task-text done">Prenatal massage voucher</span></div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Push present — necklace</span><span class="mock-badge" style="background:#FFF0F3;color:#D97DB2">$500</span></div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Maternity photoshoot</span><span class="mock-badge" style="background:#FFF0F3;color:#D97DB2">$300</span></div>
+        <div class="mock-task"><div class="mock-check"></div><span class="mock-task-text">Write weekly love notes</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="feature" id="privacy">
+  <div class="feature-grid">
+    <div>
+      <div class="feature-tag" style="background:rgba(72,187,120,.08);color:#48BB78">PRIVACY FIRST</div>
+      <div class="feature-title">Your pregnancy data stays yours. Period. 🔒</div>
+      <div class="feature-desc">After Roe v. Wade, pregnancy data privacy isn't optional — it's essential. Baby CRM was built with this in mind from day one. No tracking, no ads, no data selling. Ever.</div>
+      <div class="feature-pills"><span class="pill">No ads, no tracking, ever</span><span class="pill">Sign in with Google — that's it</span><span class="pill">Delete everything anytime</span><span class="pill">Fertility data extra protected</span></div>
+    </div>
+    <div>
+      <div class="priv-mock">
+        <div class="priv-shield">🛡️</div>
+        <div class="priv-item"><span class="priv-item-icon">🚫</span><span class="priv-item-text">No ads or tracking. Zero.</span><span class="priv-item-check">✓</span></div>
+        <div class="priv-item"><span class="priv-item-icon">🔐</span><span class="priv-item-text">Your data is never sold or shared</span><span class="priv-item-check">✓</span></div>
+        <div class="priv-item"><span class="priv-item-icon">🔑</span><span class="priv-item-text">Sign in with Google — no passwords</span><span class="priv-item-check">✓</span></div>
+        <div class="priv-item"><span class="priv-item-icon">👁️</span><span class="priv-item-text">Your secrets are truly secret</span><span class="priv-item-check">✓</span></div>
+        <div class="priv-item"><span class="priv-item-icon">🗑️</span><span class="priv-item-text">Delete everything, anytime</span><span class="priv-item-check">✓</span></div>
+        <div class="priv-item"><span class="priv-item-icon">🩺</span><span class="priv-item-text">Fertility data gets extra protection</span><span class="priv-item-check">✓</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3-PHONE SECTION -->
+<div class="phones-section">
+  <div class="phones-badge">📱 Coming Soon</div>
+  <div class="phones-title">Your whole plan, in your pocket</div>
+  <div class="phones-desc">Check tasks at the doctor's office. Update the budget from the couch. Coming soon to iOS and Android.</div>
+  <div class="phones-row">
+    <!-- Left: Tracker -->
+    <div class="phones-side">
+      <div style="width:180px;height:369px"><div class="phone-frame dark" style="width:100%;height:100%;border-radius:28px;padding:3px"><div class="phone-screen" style="border-radius:25px">
+        <div class="phone-status" style="height:28px;padding:10px 7% 0;font-size:7px;background:#F8F8F8"><span>9:41</span><span style="font-size:5px">●●●● ▾ 🔋</span></div>
+        <div class="phone-content">
+          <div class="mp-hdr"><span class="mp-hdr-i">👶</span><span class="mp-hdr-t">Tracker</span></div>
+          <div class="mp-body">
+            <div style="display:flex;gap:3px;margin-bottom:6px"><span style="padding:3px 8px;border-radius:6px;background:#222;color:#fff;font-size:7px;font-weight:700">List</span><span style="padding:3px 8px;border-radius:6px;background:#F5F5F5;color:#BBB;font-size:7px;font-weight:700">Columns</span></div>
+            <div style="font-size:7px;font-weight:800;color:#CCC;letter-spacing:.5px;margin-bottom:4px">🏥 MEDICAL</div>
+            <div style="display:flex;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;align-items:center"><div style="width:8px;height:8px;border-radius:2.5px;border:1.5px solid #DDD"></div><span style="font-size:9px;color:#444">Prenatal visit</span></div>
+            <div style="display:flex;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;align-items:center"><div style="width:8px;height:8px;border-radius:2.5px;border:1.5px solid #DDD"></div><span style="font-size:9px;color:#444">Ultrasound</span></div>
+            <div style="display:flex;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;align-items:center"><div style="width:8px;height:8px;border-radius:2.5px;border:1.5px solid #DDD"></div><span style="font-size:9px;color:#444">Blood work</span></div>
+            <div style="font-size:7px;font-weight:800;color:#CCC;letter-spacing:.5px;margin-top:6px;margin-bottom:4px">🛒 SHOPPING</div>
+            <div style="display:flex;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;align-items:center"><div style="width:8px;height:8px;border-radius:2.5px;border:1.5px solid #DDD"></div><span style="font-size:9px;color:#444">Crib + mattress</span></div>
+            <div style="display:flex;gap:5px;padding:4px 0;border-bottom:1px solid #F5F5F5;align-items:center"><div style="width:8px;height:8px;border-radius:2.5px;border:1.5px solid #DDD"></div><span style="font-size:9px;color:#444">Stroller</span></div>
+          </div>
+        </div>
+        <div class="phone-home"><div class="phone-home-bar"></div></div>
+      </div></div></div>
+    </div>
+    <!-- Center: Dashboard -->
+    <div>
+      <div style="width:180px;height:369px"><div class="phone-frame dark" style="width:100%;height:100%;border-radius:28px;padding:3px"><div class="phone-screen" style="border-radius:25px">
+        <div class="phone-status" style="height:28px;padding:10px 7% 0;font-size:7px;background:#F8F8F8"><span>9:41</span><span style="font-size:5px">●●●● ▾ 🔋</span></div>
+        <div class="phone-content">
+          <div class="ds-header"><div class="ds-logo"><span class="ds-logo-i">👶</span><span class="ds-logo-t">Baby CRM</span></div><div class="ds-av">J</div></div>
+          <div class="ds-body">
+            <div class="ds-hi">Hey Jason 👋</div>
+            <div class="ds-wk">Week 22 · Month 5 · Trimester 2</div>
+            <div class="ds-prog"><div class="ds-prog-top"><span class="ds-prog-l">Pregnancy Progress</span><span class="ds-prog-p">55%</span></div><div class="ds-bar"><div class="ds-bar-fill"></div></div></div>
+            <div class="ds-stats">
+              <div class="ds-stat" style="background:#F0FFF4"><div class="ds-stat-v" style="color:#48BB78">38</div><div class="ds-stat-l">Done</div></div>
+              <div class="ds-stat" style="background:#FFF5F5"><div class="ds-stat-v" style="color:#E85D5D">4</div><div class="ds-stat-l">Overdue</div></div>
+              <div class="ds-stat" style="background:#EBF8FF"><div class="ds-stat-v" style="color:#7CB9E8">$2.4k</div><div class="ds-stat-l">Spent</div></div>
+            </div>
+            <div class="ds-sl">COMING UP</div>
+            <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Anatomy scan</span><span class="ds-task-b" style="background:#FFF5F5;color:#E85D5D">Tomorrow</span></div>
+            <div class="ds-task"><div class="ds-task-ck"></div><span class="ds-task-nm">Baby registry</span><span class="ds-task-b" style="background:#EBF8FF;color:#7CB9E8">Wk 23</span></div>
+          </div>
+        </div>
+        <div class="phone-home"><div class="phone-home-bar"></div></div>
+      </div></div></div>
+    </div>
+    <!-- Right: Budget -->
+    <div class="phones-side">
+      <div style="width:180px;height:369px"><div class="phone-frame dark" style="width:100%;height:100%;border-radius:28px;padding:3px"><div class="phone-screen" style="border-radius:25px">
+        <div class="phone-status" style="height:28px;padding:10px 7% 0;font-size:7px;background:#F8F8F8"><span>9:41</span><span style="font-size:5px">●●●● ▾ 🔋</span></div>
+        <div class="phone-content">
+          <div class="mp-hdr"><span class="mp-hdr-i">👶</span><span class="mp-hdr-t">Budget</span></div>
+          <div class="mp-body">
+            <div style="text-align:center;margin-bottom:8px"><div style="font-size:7px;color:#BBB;font-weight:600;text-transform:uppercase;letter-spacing:.5px">Total Budget</div><div style="font-size:22px;font-weight:800;color:#222;letter-spacing:-1px">$8,740</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px"><div style="background:#F0FFF4;border-radius:6px;padding:5px;text-align:center"><div style="font-size:12px;font-weight:800;color:#48BB78">$2,430</div><div style="font-size:6px;color:#48BB78;font-weight:600;text-transform:uppercase">Spent</div></div><div style="background:#EBF8FF;border-radius:6px;padding:5px;text-align:center"><div style="font-size:12px;font-weight:800;color:#7CB9E8">$6,310</div><div style="font-size:6px;color:#7CB9E8;font-weight:600;text-transform:uppercase">Remaining</div></div></div>
+            <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:8px;font-weight:600;color:#444">🏥 Medical</span><span style="font-size:8px;font-weight:700;color:#555">$2,800</span></div><div style="height:3px;background:#F0F0F0;border-radius:2px"><div style="height:100%;width:45%;background:#E85D5D;border-radius:2px"></div></div></div>
+            <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:8px;font-weight:600;color:#444">🛒 Shopping</span><span style="font-size:8px;font-weight:700;color:#555">$1,975</span></div><div style="height:3px;background:#F0F0F0;border-radius:2px"><div style="height:100%;width:30%;background:#FFB347;border-radius:2px"></div></div></div>
+            <div style="margin-bottom:5px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:8px;font-weight:600;color:#444">🩺 IVF</span><span style="font-size:8px;font-weight:700;color:#555">$5,800</span></div><div style="height:3px;background:#F0F0F0;border-radius:2px"><div style="height:100%;width:60%;background:#9F7AEA;border-radius:2px"></div></div></div>
+          </div>
+        </div>
+        <div class="phone-home"><div class="phone-home-bar"></div></div>
+      </div></div></div>
+    </div>
+  </div>
+  <div class="store-badges">
+    <span class="store-badge">🍎 App Store — Soon</span>
+    <span class="store-badge">▶ Google Play — Soon</span>
+  </div>
+</div>
+
+<!-- QUICK FEATURES -->
+<div class="section">
+  <div style="text-align:center;margin-bottom:36px">
+    <div class="section-title" style="margin-bottom:6px">The little things that make a big difference</div>
+    <p style="font-size:13px;color:#999">Built for real couples, not corporate wellness programs.</p>
+  </div>
+  <div class="quick">
+    <div class="quick-card"><div class="quick-icon">👥</div><div class="quick-title">Real-time partner sync</div><div class="quick-desc">You both see the same plan, always up to date.</div></div>
+    <div class="quick-card"><div class="quick-icon">💬</div><div class="quick-title">Chat-style onboarding</div><div class="quick-desc">Setup feels like texting, not filling out forms.</div></div>
+    <div class="quick-card"><div class="quick-icon">🩺</div><div class="quick-title">IVF &amp; fertility support</div><div class="quick-desc">Dedicated tasks for the fertility journey.</div></div>
+    <div class="quick-card"><div class="quick-icon">⏩</div><div class="quick-title">Start mid-pregnancy</div><div class="quick-desc">Already 6 months in? AI catches you up instantly.</div></div>
+    <div class="quick-card"><div class="quick-icon">📅</div><div class="quick-title">Smart week timing</div><div class="quick-desc">Tasks show up when they're actually relevant.</div></div>
+    <div class="quick-card"><div class="quick-icon">🔗</div><div class="quick-title">Merge accounts</div><div class="quick-desc">Started separately? Combine into one plan.</div></div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing" id="pricing">
+  <div class="section-tag" style="color:#ccc">PRICING</div>
+  <div class="section-title">One price. Lifetime access.</div>
+  <div class="section-desc">Try it free for 14 days. If you love it, unlock everything with a single payment. No subscriptions, no hidden fees.</div>
+  <div class="pricing-card">
+    <div class="pricing-label">BABY CRM PRO</div>
+    <div class="pricing-amount">$4.99</div>
+    <div class="pricing-sub">One-time payment · Yours forever</div>
+    <a href="app.html"><button class="pricing-btn">Start 14-day free trial →</button></a>
+    <div class="pricing-features">
+      <div class="pricing-feat">✨ AI-built plan unique to you</div>
+      <div class="pricing-feat">📋 Unlimited task management</div>
+      <div class="pricing-feat">💰 Full budget tracking</div>
+      <div class="pricing-feat">👥 Real-time partner sharing</div>
+      <div class="pricing-feat">🔒 Private secrets tab</div>
+      <div class="pricing-feat">🩺 IVF &amp; fertility support</div>
+      <div class="pricing-feat">📱 Mobile app (coming soon)</div>
+      <div class="pricing-feat">🔄 All future updates included</div>
+    </div>
+  </div>
+  <div class="pricing-note">No credit card required to start your trial</div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>Ready to feel organized? 🎉</h2>
+  <p>60 seconds. A few questions. A plan that's actually yours — free for 14 days.</p>
+  <a href="app.html"><button class="btn-primary" style="font-size:16px;padding:14px 36px;border-radius:14px">Start your free trial →</button></a>
+  <div class="final-sub">🔒 Private by design · No ads · 14-day free trial</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 Baby CRM · <a href="#">Privacy Policy</a> · <a href="mailto:jasonsingh826@gmail.com">Send Feedback</a>
+</div>
+
+</body>
+</html>
